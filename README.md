@@ -24,8 +24,8 @@ compares Wiki and Gemini responses using the Gemini API again.
 ```
 fact_checker/
 ├── .env                # API KEY
-├── main.py             # MAIN CODE
 ├── README.md           # INSTRUCTIONS
+├── main.py             # MAIN CODE
 └── requirements.txt    # REQUIRMENTS
 ```
 
