@@ -5,6 +5,7 @@ import re
 import os
 from dotenv import load_dotenv
 
+
 load_dotenv()
 genai_key = os.getenv("GENAI_API_KEY")
 AI_con = genai.Client(api_key=genai_key)
@@ -24,7 +25,7 @@ def llm_query(user_claim):
 
         if match:
             llm_truth = match.group(1).lower()
-            llm_explanation = llm_response[len(match.group(0)):].strip()
+            llm_explanation = llm_response[len(match.group(1)):].strip()
 
         else:
             llm_truth = "uncertain"
@@ -46,6 +47,7 @@ def wiki_search(claim):
     else:
         parts = claim.split(" is ", 1)
         keywords = parts[0].strip()
+
     wiki_wiki = wikipediaapi.Wikipedia(user_agent="fact_checker/1.0", language="en")
     page = wiki_wiki.page(keywords)
 
@@ -78,7 +80,7 @@ def wiki_search(claim):
     return summary[:7]
 
 
-def check_with_gemini(claim, wiki_content):  # wiki response -> gemini -> gemini result
+def check_with_gemini(claim, wiki_content):
     if not wiki_content or wiki_content[0] == "No relevant Wikipedia data found.":
         return "uncertain (No Wikipedia data)"
 
@@ -101,7 +103,8 @@ def check_with_gemini(claim, wiki_content):  # wiki response -> gemini -> gemini
 
         if match:
             wiki_truth = match.group(1).lower()
-            wiki_explanation = check_response[len(match.group(0)):].strip()
+            wiki_explanation = check_response[len(match.group(1)):].strip()
+
         else:
             wiki_truth = "uncertain"
             wiki_explanation = check_response
